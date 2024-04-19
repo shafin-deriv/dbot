@@ -1,19 +1,29 @@
-import derivLogo from './static/deriv-logo.svg';
+import { Fragment } from 'react/jsx-runtime';
 
-import './App.css';
+import { AppDataProvider } from '@deriv-com/api-hooks';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import Layout from './components/layout';
+import { StoreProvider } from './hooks/useStore';
+import Home from './pages/home';
+
+import './App.scss';
+
+const queryClient = new QueryClient();
 
 function App() {
     return (
-        <div className='flex flex-col items-center justify-center gap-10'>
-            <a href='https://deriv.com' target='_blank' rel='noreferrer'>
-                <img src={derivLogo} className='logo' alt='Deriv logo' />
-            </a>
-            <h1 className='text-5xl font-bold'>Deriv V2</h1>
-            <button>Click me 💅</button>
-            <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-        </div>
+        <Fragment>
+            <QueryClientProvider client={queryClient}>
+                <AppDataProvider>
+                    <StoreProvider>
+                        <Layout>
+                            <Home />
+                        </Layout>
+                    </StoreProvider>
+                </AppDataProvider>
+            </QueryClientProvider>
+        </Fragment>
     );
 }
 
